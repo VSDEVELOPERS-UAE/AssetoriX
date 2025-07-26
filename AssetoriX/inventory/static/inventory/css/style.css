@@ -1,0 +1,256 @@
+/* General page styling */
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    margin: 20px;
+    background-color: #f4f8fc;
+    color: #2c3e50;
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    color: #005a9c;
+    margin-bottom: 30px;
+    font-size: 26px;
+    border-bottom: 2px solid #cce0f5;
+    padding-bottom: 10px;
+}
+
+/* Labels and text */
+label {
+    font-weight: bold;
+    color: #003366;
+}
+
+p {
+    margin: 8px 0;
+}
+
+/* Dropdowns and input fields */
+select,
+input[type="text"],
+input[type="number"] {
+    width: 70%;
+    padding: 6px 10px;
+    margin: 4px 0;
+    border: 1px solid #cddff2;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Table styling */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(0, 90, 156, 0.1);
+}
+
+th, td {
+    border: 1px solid #c6d9ec;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #e6f0fa;
+    color: #003366;
+    font-weight: 600;
+}
+
+/* Button styling */
+#generate_pdf {
+    background-color: #007acc;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#generate_pdf:hover {
+    background-color: #005fa3;
+}
+
+/* Small enhancements */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #cce0f5;
+    margin: 20px 0;
+}
+/* Navigation bar styling */
+nav {
+    background-color: #e6f0fa;
+    padding: 10px 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 90, 156, 0.1);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Style the nav links to look like buttons */
+nav a {
+    text-decoration: none;
+    background-color: #007acc;
+    color: white;
+    padding: 10px 18px;
+    margin: 0 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+/* Hover effect */
+nav a:hover {
+    background-color: #005fa3;
+}
+
+/* Dashboard container */
+.dashboard-content {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 90, 156, 0.1);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.dashboard-content h1 {
+    color: #005a9c;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.dashboard-content p {
+    font-size: 16px;
+    color: #2c3e50;
+}
+/* Login page layout */
+.login-wrapper {
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* Left welcome panel */
+.login-left {
+    flex: 1;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    padding: 80px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-left h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.login-left p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Right login form panel */
+.login-right {
+    flex: 1;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
+
+.login-box h2 {
+    font-size: 22px;
+    color: #6a11cb;
+    margin-bottom: 20px;
+}
+
+/* Input fields */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 25px;
+    background-color: #f1f3f6;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Options row */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.form-options a {
+    text-decoration: none;
+    color: #6a11cb;
+}
+
+.form-options a:hover {
+    text-decoration: underline;
+}
+
+/* Login button */
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-button:hover {
+    background: linear-gradient(to right, #5b0eb3, #1f5edb);
+}
+
+/* Error message */
+.login-error {
+    color: red;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+<style>
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-links li {
+        display: inline;
+    }
+</style>

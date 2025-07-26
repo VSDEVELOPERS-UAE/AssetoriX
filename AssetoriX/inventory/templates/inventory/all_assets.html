@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AssetoriX - All Assets</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <style>
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            display: inline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .export-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .export-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1 style="margin: 0;">AssetoriX - Asset Management System</h1>
+        <span style="margin: 0;">👤 {{ user.username }}</span>
+    </div>
+
+    <div class="dashboard-content">
+        <h2>All Asset Records</h2>
+        <button class="export-btn" onclick="exportTableToCSV()">Export to CSV</button>
+	</div>
+        <table id="assetTable">
+            <thead>
+                <tr>
+                    <th><input type="text" placeholder="SL No" onkeyup="filterTable(0)"></th>
+                    <th><input type="text" placeholder="Item" onkeyup="filterTable(1)"></th>
+                    <th><input type="text" placeholder="Model" onkeyup="filterTable(2)"></th>
+                    <th><input type="text" placeholder="Location" onkeyup="filterTable(3)"></th>
+                    <th><input type="text" placeholder="Custodian" onkeyup="filterTable(4)"></th>
+		    <th><input type="text" placeholder="Last changes on" onkeyup="filterTable(5)"></th>
+                    <th><input type="text" placeholder="Status" onkeyup="filterTable(6)"></th>
+                    <th><input type="text" placeholder="Invoice" onkeyup="filterTable(7)"></th>
+                    <th><input type="text" placeholder="Supplier" onkeyup="filterTable(8)"></th>
+		    <th><input type="text" placeholder="Purchase Date" onkeyup="filterTable(8)"></th>
+		    <th><input type="text" placeholder="Warranty End" onkeyup="filterTable(9)"></th>
+                </tr>
+                <tr>
+                    <th>SL No</th>
+                    <th>Item</th>
+                    <th>Model</th>
+                    <th>Location</th>
+                    <th>Custodian</th>
+		    <th>Last changes on</th>
+                    <th>Status</th>
+                    <th>Invoice</th>
+                    <th>Supplier</th>
+   		    <th>Purchase Date</th>
+                    <th>Warranty End</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for asset in assets %}
+                <tr>
+                    <td>{{ asset.serial_number }}</td>
+                    <td>{{ asset.item }}</td>
+                    <td>{{ asset.model }}</td>
+                    <td>{{ asset.current_location }}</td>
+                    <td>{{ asset.current_custodian }}</td>
+		    <td>{{ asset.location_last_updated }}</td>
+                    <td>{{ asset.working_status }}</td>
+                    <td>{{ asset.invoice_number }}</td>
+                    <td>{{ asset.supplier_name }}</td>
+		    <td>{{ asset.purchase_date }}</td>
+		    <td>{{ asset.warranty_end_date }}</td>
+		    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <center>
+        <footer style="margin-top: 50px; text-align: center; font-size: 14px; color: #666;">
+            &copy; 2025 <a href="https://vsdevelopersnet.store/about" target="_blank">vsdevelopersnet.store</a>. All rights reserved.
+        </footer>
+    </center>
+
+    <script>
+        function filterTable(colIndex) {
+            const inputs = document.querySelectorAll("thead tr:first-child input");
+            const table = document.getElementById("assetTable");
+            const rows = table.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                let show = true;
+                inputs.forEach((input, i) => {
+                    const filter = input.value.toUpperCase();
+                    const cell = row.cells[i];
+                    if (cell && filter && !cell.textContent.toUpperCase().includes(filter)) {
+                        show = false;
+                    }
+                });
+                row.style.display = show ? "" : "none";
+            });
+        }
+
+        function exportTableToCSV() {
+            const rows = document.querySelectorAll("#assetTable tr");
+            let csv = [];
+
+            rows.forEach(row => {
+                if (row.style.display === "none") return;
+                const cols = row.querySelectorAll("th, td");
+                const rowData = Array.from(cols).map(col => `"${col.innerText}"`);
+                csv.push(rowData.join(","));
+            });
+
+            const csvContent = csv.join("\n");
+            const blob = new Blob([csvContent], { type: "text/csv" });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "filtered_assets.csv";
+            a.click();
+        }
+    </script>
+</body>
+</html>
