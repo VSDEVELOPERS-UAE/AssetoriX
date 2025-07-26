@@ -3,3 +3,4 @@ django-import-export>=3.2.0
 gunicorn
 whitenoise
 psycopg[binary]
+reportlab
