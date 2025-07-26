@@ -1,0 +1,5 @@
+django>=4.2
+django-import-export>=3.2.0
+gunicorn
+whitenoise
+psycopg[binary]
