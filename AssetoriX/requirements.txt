@@ -4,3 +4,4 @@ gunicorn
 whitenoise
 psycopg[binary]
 reportlab
+django-import-export
