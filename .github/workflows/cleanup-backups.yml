@@ -1,0 +1,41 @@
+name: Cleanup Old SQLite Backups
+
+on:
+  schedule:
+    # Run every day at 2 AM UTC
+    - cron: "0 2 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Delete backups older than 15 days
+        run: |
+          echo "Checking old backups..."
+
+          find . -name "backup_*.sqlite3" -type f -mtime +15 -print -delete
+
+          echo "Cleanup completed"
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          git add .
+          
+          if git diff --cached --quiet; then
+            echo "No files deleted"
+          else
+            git commit -m "Auto delete SQLite backups older than 15 days"
+            git push
+          fi
