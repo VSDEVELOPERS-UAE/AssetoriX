@@ -1,8 +1,8 @@
-name: Auto Cleanup SQLite Backups
+name: Auto Delete Old SQLite Backups
 
 on:
   schedule:
-    # Every day at 01:00 UTC
+    # Run every day at 1:00 AM UTC
     - cron: "0 1 * * *"
 
   workflow_dispatch:
@@ -17,32 +17,67 @@ jobs:
 
     steps:
 
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
 
-    - name: Delete backups older than 15 days
-      run: |
+      - name: Delete backups older than 15 days
+        run: |
+          echo "Checking SQLite backups..."
 
-        echo "Deleting old SQLite backups..."
+          python3 <<'EOF'
+          import os
+          import re
+          from datetime import datetime, timedelta
 
-        find AssetoriX -name "backup_*.sqlite3" -type f -mtime +15 -print -delete
+          cutoff = datetime.now() - timedelta(days=15)
 
-        echo "Cleanup completed"
+          print("Deleting backups older than:", cutoff.strftime("%Y-%m-%d"))
+
+          deleted = 0
+
+          for root, dirs, files in os.walk("."):
+              for file in files:
+
+                  if re.match(r"backup_\d{8}_\d{6}\.sqlite3", file):
+
+                      date_part = file[7:15]
+
+                      try:
+                          backup_date = datetime.strptime(
+                              date_part,
+                              "%Y%m%d"
+                          )
+
+                          if backup_date < cutoff:
+                              full_path = os.path.join(root, file)
+
+                              print("Deleting:", full_path)
+
+                              os.remove(full_path)
+
+                              deleted += 1
+
+                      except Exception as e:
+                          print("Skipping:", file, e)
+
+          print("Total deleted:", deleted)
+
+          EOF
 
 
-    - name: Commit deleted backups
-      run: |
+      - name: Commit deleted files
+        run: |
 
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
 
-        git add .
+          git add .
 
-        if git diff --cached --quiet
-        then
-          echo "No old backups found"
-        else
-          git commit -m "Auto remove backups older than 15 days"
-          git push
-        fi
+          if git diff --cached --quiet
+          then
+              echo "No old backups found"
+          else
+              git commit -m "Auto delete SQLite backups older than 15 days"
+              git push
+          fi
